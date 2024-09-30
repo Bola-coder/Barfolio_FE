@@ -30,14 +30,15 @@ function App() {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route
+                  path="/collection/public/:id"
+                  element={<PublicCollectionDetails />}
+                />
                 {/* Protected routes */}
                 <Route element={<ProtectedRoutes />}>
                   <Route path="/collections" element={<Home />} />
                   <Route path="/create" element={<CreateCollection />} />
-                  <Route
-                    path="/collection/public/:id"
-                    element={<PublicCollectionDetails />}
-                  />
+
                   <Route
                     path="/collection/:id"
                     element={<CollectionDetails />}
