@@ -61,6 +61,7 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         Cookies.set("token", response.data.token, {
           expires: 7,
+          httpOnly: true,
           secure: true,
           sameSite: "None",
         });
@@ -106,6 +107,7 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         Cookies.set("token", response.data.token, {
           expires: 7,
+          httpOnly: true,
           secure: true,
           sameSite: "None",
         });
