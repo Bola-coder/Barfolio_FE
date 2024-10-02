@@ -5,24 +5,28 @@ import { useAuth } from "../contexts/AuthContext";
 
 const ProtectedRoutes = () => {
   const navigate = useNavigate();
-  const { checkAuthenticationStatus, isAuthenticated } = useAuth();
+  const { checkAuthenticationStatus, isAuthenticated, token } = useAuth();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAuthenticationStatus = async () => {
-      try {
-        await checkAuthenticationStatus();
-      } catch (error) {
-        console.error(error);
-        // Handle error if needed
-      } finally {
+      if (token) {
+        try {
+          await checkAuthenticationStatus();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
         setLoading(false);
+        navigate("/login");
       }
     };
 
     fetchAuthenticationStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (!loading && isAuthenticated === false) {

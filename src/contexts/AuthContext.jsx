@@ -24,9 +24,8 @@ const AuthProvider = ({ children }) => {
     duration: 3000,
     isClosable: true,
   });
-  //   const [token, setToken] = useState(Cookies.get("token"));
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
@@ -46,7 +45,7 @@ const AuthProvider = ({ children }) => {
 
     checkAuthStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
 
   const signup = (email, firstname, lastname, password, phoneNumber) => {
     const body = {
@@ -151,7 +150,7 @@ const AuthProvider = ({ children }) => {
           setIsAuthenticated(true);
         } else {
           //   console.log("Heyy false ooo");
-          setIsAuthenticated(false);
+          // setIsAuthenticated(false);
         }
       })
       .catch((error) => {
