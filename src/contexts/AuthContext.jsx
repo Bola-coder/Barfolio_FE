@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
         Cookies.set("token", response.data.token, {
           expires: 7,
           secure: true,
-          sameSite: "Lax",
+          sameSite: "None",
         });
         toast({
           title: "Account created.",
@@ -107,7 +107,7 @@ const AuthProvider = ({ children }) => {
         Cookies.set("token", response.data.token, {
           expires: 7,
           secure: true,
-          sameSite: "Lax",
+          sameSite: "None",
         });
 
         toast({
