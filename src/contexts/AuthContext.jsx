@@ -45,6 +45,7 @@ const AuthProvider = ({ children }) => {
     };
 
     checkAuthStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signup = (email, firstname, lastname, password, phoneNumber) => {
@@ -137,9 +138,12 @@ const AuthProvider = ({ children }) => {
 
   const checkAuthenticationStatus = async () => {
     setLoading(true); // Ensure loading is set at the beginning
-    axiosInstance
-      .get(`/auth/check-auth`, {
+    axios
+      .get(`${apiUrl}/auth/check-auth`, {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((response) => {
         if (response.data.status === "success") {
