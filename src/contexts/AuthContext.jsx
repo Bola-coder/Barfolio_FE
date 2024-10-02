@@ -2,7 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 // import Cookies from "js-cookie";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -59,12 +59,11 @@ const AuthProvider = ({ children }) => {
         console.log(response);
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
-        Cookies.set("token", response.data.token, {
-          expires: 7,
-          httpOnly: true,
-          secure: true,
-          sameSite: "None",
-        });
+        // Cookies.set("token", response.data.token, {
+        //   expires: 7,
+        //   secure: true,
+        //   sameSite: "None",
+        // });
         toast({
           title: "Account created.",
           description: "You have successfully created an account.",
@@ -105,12 +104,11 @@ const AuthProvider = ({ children }) => {
       .then((response) => {
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
-        Cookies.set("token", response.data.token, {
-          expires: 7,
-          httpOnly: true,
-          secure: true,
-          sameSite: "None",
-        });
+        // Cookies.set("token", response.data.token, {
+        //   expires: 7,
+        //   secure: true,
+        //   sameSite: "None",
+        // });
 
         toast({
           title: "Login successful.",
