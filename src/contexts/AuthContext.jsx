@@ -61,8 +61,8 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         Cookies.set("token", response.data.token, {
           expires: 7,
-          secure: true,
-          sameSite: "None",
+          // secure: true,
+          // sameSite: "None",
         });
         toast({
           title: "Account created.",
@@ -106,8 +106,8 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         Cookies.set("token", response.data.token, {
           expires: 7,
-          secure: true,
-          sameSite: "None",
+          // secure: true,
+          // sameSite: "None",
         });
 
         toast({
