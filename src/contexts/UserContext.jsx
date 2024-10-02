@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useContext, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../config/axios";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,6 @@ export const useUserContext = () => {
 
 const UserProvider = ({ children }) => {
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL;
   const toast = useToast({
     position: "top-right",
     duration: 3000,
@@ -33,7 +32,7 @@ const UserProvider = ({ children }) => {
   const getUserDetails = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${apiUrl}/user/profile`, {
+      const response = await axiosInstance.get(`/user/profile`, {
         withCredentials: true,
       });
       const user = response.data.data.user;
@@ -53,13 +52,9 @@ const UserProvider = ({ children }) => {
   const updateUser = async (updatedData) => {
     setLoading(true);
     try {
-      const response = await axios.patch(
-        `${apiUrl}/user/profile`,
-        updatedData,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axiosInstance.patch(`/user/profile`, updatedData, {
+        withCredentials: true,
+      });
       const updatedUser = response.data.data.user;
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -82,8 +77,8 @@ const UserProvider = ({ children }) => {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const response = await axios.patch(
-        `${apiUrl}/user/profile-image`,
+      const response = await axiosInstance.patch(
+        `/user/profile-image`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

@@ -2,6 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
+import axiosInstance from "../config/axios";
 // import Cookies from "js-cookie";
 // import Cookies from "js-cookie";
 import { useToast } from "@chakra-ui/react";
@@ -25,11 +26,16 @@ const AuthProvider = ({ children }) => {
   });
   //   const [token, setToken] = useState(Cookies.get("token"));
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
+    const userToken = localStorage.getItem("token");
+    if (userToken) {
+      setToken(userToken);
+    }
     if (user) {
       setUser(JSON.parse(user));
     }
@@ -39,7 +45,6 @@ const AuthProvider = ({ children }) => {
     };
 
     checkAuthStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signup = (email, firstname, lastname, password, phoneNumber) => {
@@ -59,11 +64,8 @@ const AuthProvider = ({ children }) => {
         console.log(response);
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
-        // Cookies.set("token", response.data.token, {
-        //   expires: 7,
-        //   secure: true,
-        //   sameSite: "None",
-        // });
+        localStorage.setItem("token", response.data.token);
+        setToken(response.data.token);
         toast({
           title: "Account created.",
           description: "You have successfully created an account.",
@@ -104,12 +106,8 @@ const AuthProvider = ({ children }) => {
       .then((response) => {
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
-        // Cookies.set("token", response.data.token, {
-        //   expires: 7,
-        //   secure: true,
-        //   sameSite: "None",
-        // });
-
+        localStorage.setItem("token", response.data.token);
+        setToken(response.data.token);
         toast({
           title: "Login successful.",
           description: "You have successfully logged in.",
@@ -139,8 +137,8 @@ const AuthProvider = ({ children }) => {
 
   const checkAuthenticationStatus = async () => {
     setLoading(true); // Ensure loading is set at the beginning
-    axios
-      .get(`${apiUrl}/auth/check-auth`, {
+    axiosInstance
+      .get(`/auth/check-auth`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -163,13 +161,15 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    axios
-      .get(`${apiUrl}/auth/logout`, {
+    axiosInstance
+      .get(`/auth/logout`, {
         withCredentials: true,
       })
       .then((res) => {
         console.log(res);
         setIsAuthenticated(false);
+        setToken(null);
+        localStorage.removeItem("token");
         navigate("/login");
         toast({
           status: "success",
@@ -187,6 +187,7 @@ const AuthProvider = ({ children }) => {
 
   const values = {
     isAuthenticated,
+    token,
     user,
     loading,
     signup,

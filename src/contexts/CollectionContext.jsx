@@ -1,7 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../config/axios";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +13,7 @@ export const useCollectionContext = () => {
 };
 
 const CollectionProvider = ({ children }) => {
-  const apiUrl = import.meta.env.VITE_API_URL;
+  // const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const toast = useToast({
     position: "top right",
@@ -52,8 +53,8 @@ const CollectionProvider = ({ children }) => {
     console.log(data);
     console.log("zform data", formData);
     setLoading(true);
-    axios
-      .post(`${apiUrl}/collection`, formData, {
+    axiosInstance
+      .post(`/collection`, formData, {
         withCredentials: true,
         headers: {
           //   "Content-Type": "application/json",
@@ -78,12 +79,12 @@ const CollectionProvider = ({ children }) => {
 
   const fetchCollections = async () => {
     setLoading(true);
-    axios
-      .get(`${apiUrl}/collection`, {
+    axiosInstance
+      .get(`/collection`, {
         withCredentials: true,
       })
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         setCollections(response.data.data.collections);
         setLoading(false);
       })
@@ -97,8 +98,8 @@ const CollectionProvider = ({ children }) => {
   const fetchCollectionDetails = async (id) => {
     setCollectionDetails(null);
     setLoading(true);
-    axios
-      .get(`${apiUrl}/collection/${id}`, {
+    axiosInstance
+      .get(`/collection/${id}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -116,8 +117,8 @@ const CollectionProvider = ({ children }) => {
   const updateCollection = async (id, data) => {
     console.log(data);
     setLoading(true);
-    axios
-      .patch(`${apiUrl}/collection/${id}`, data, {
+    axiosInstance
+      .patch(`/collection/${id}`, data, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -142,8 +143,8 @@ const CollectionProvider = ({ children }) => {
   const fetchPublicCollectionDetails = async (id) => {
     setPublicCollectionDetails(null);
     setLoading(true);
-    axios
-      .get(`${apiUrl}/collection/public/${id}`)
+    axiosInstance
+      .get(`/collection/public/${id}`)
       .then((response) => {
         console.log(response);
         setPublicCollectionDetails(response.data.data.collection);
