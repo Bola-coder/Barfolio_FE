@@ -2,6 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 // import Cookies from "js-cookie";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -53,13 +54,16 @@ const AuthProvider = ({ children }) => {
     axios
       .post(`${apiUrl}/auth/signup`, body, {
         withCredentials: true,
-        // credentials: "include",
       })
       .then((response) => {
         console.log(response);
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
-        // setToken(getCookie("token"));
+        Cookies.set("token", response.data.token, {
+          expires: 7,
+          secure: true,
+          sameSite: "None",
+        });
         toast({
           title: "Account created.",
           description: "You have successfully created an account.",
@@ -96,13 +100,16 @@ const AuthProvider = ({ children }) => {
     axios
       .post(`${apiUrl}/auth/login`, body, {
         withCredentials: true,
-        // credentials: "include",
       })
       .then((response) => {
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
-        // Cookies.set("test", "value");
-        // setToken(getCookie("token"));
+        Cookies.set("token", response.data.token, {
+          expires: 7,
+          secure: true,
+          sameSite: "None",
+        });
+
         toast({
           title: "Login successful.",
           description: "You have successfully logged in.",
