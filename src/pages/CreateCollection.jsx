@@ -11,6 +11,7 @@ import {
   FormControl,
   FormLabel,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
 import { useFormik } from "formik";
@@ -18,7 +19,7 @@ import * as Yup from "yup";
 import { useCollectionContext } from "../contexts/CollectionContext";
 
 const CreateCollection = () => {
-  const { createNewCollection } = useCollectionContext();
+  const { loading, createNewCollection } = useCollectionContext();
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
@@ -332,8 +333,8 @@ const CreateCollection = () => {
         </VStack>
 
         <Divider my={4} />
-        <Button type="submit" colorScheme="primary">
-          Create Collection
+        <Button type="submit" colorScheme="primary" disabled={loading}>
+          {loading ? <Spinner size="md" color="white" /> : "Create Collection"}
         </Button>
       </form>
     </Box>

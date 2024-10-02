@@ -67,7 +67,7 @@ const CollectionProvider = ({ children }) => {
           title: "Collection created successfully",
           status: "success",
         });
-        navigate("/");
+        navigate("/collections");
         setLoading(false);
       })
       .catch((error) => {

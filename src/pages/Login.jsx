@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -22,7 +22,8 @@ const Login = () => {
   //   const toast = useToast();
   const navigate = useNavigate();
   const { showPassword, handleShowPassword } = useShowPassword();
-  const { loading, login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -46,6 +47,7 @@ const Login = () => {
     }),
     onSubmit: async (values) => {
       console.log(values);
+      setButtonLoading(true);
       await login(values.email, values.password);
       //   formik.resetForm();
     },
@@ -133,7 +135,7 @@ const Login = () => {
 
           <Flex justifyContent={"flex-end"}>
             <Button mt={6} colorScheme="primary" type="submit">
-              {loading ? (
+              {buttonLoading ? (
                 <Spinner color="white" size={"md"} />
               ) : (
                 <Text>Login</Text>

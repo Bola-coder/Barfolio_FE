@@ -37,6 +37,28 @@ const Home = () => {
     );
   }
 
+  if (collections.length === 0) {
+    return (
+      <Flex
+        maxW="1000px"
+        justifyContent="center"
+        alignItems="center"
+        mx="auto"
+        p="6"
+        fontFamily="IBM Plex Sans"
+      >
+        <Text
+          textAlign="center"
+          fontSize="lg"
+          color="gray.600"
+          fontFamily="IBM Plex Sans"
+        >
+          You have no collections at the moment
+        </Text>
+      </Flex>
+    );
+  }
+
   return (
     <Box p="6" maxW="1200px" mx="auto" fontFamily={"IBM Plex Sans"}>
       <Flex justifyContent={"space-between"} alignItems={"center"} mb="6">

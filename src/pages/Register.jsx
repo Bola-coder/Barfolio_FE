@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -20,6 +20,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { showPassword, handleShowPassword } = useShowPassword();
   const { loading, signup, isAuthenticated } = useAuth();
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -50,6 +51,7 @@ const Signup = () => {
     }),
     onSubmit: async (values) => {
       console.log(values);
+      setButtonLoading(true);
       await signup(
         values.email,
         values.firstname,
@@ -194,7 +196,7 @@ const Signup = () => {
               type="submit"
               width={{ base: "100%", md: "auto" }}
             >
-              {loading ? (
+              {buttonLoading ? (
                 <Spinner color="white" size={"md"} />
               ) : (
                 <Text>Register</Text>
