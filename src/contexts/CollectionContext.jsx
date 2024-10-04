@@ -115,11 +115,11 @@ const CollectionProvider = ({ children }) => {
       .patch(`/collection/${id}`, data, {
         withCredentials: true,
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       })
-      .then(() => {
-        // console.log(response);
+      .then((response) => {
+        console.log(response);
         toast({
           title: "Collection updated successfully",
           status: "success",
