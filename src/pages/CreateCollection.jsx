@@ -55,7 +55,7 @@ const CreateCollection = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       createNewCollection(values);
     },
   });
@@ -64,8 +64,7 @@ const CreateCollection = () => {
   const handleImageUpload = (e, sectionIndex) => {
     const file = e.target.files[0];
     if (file) {
-      // Store file in state for future processing (e.g., uploading)
-      formik.setFieldValue(`linkCollection[${sectionIndex}].image`, file); // For now, we're storing the file name
+      formik.setFieldValue(`linkCollection[${sectionIndex}].image`, file);
     }
   };
 

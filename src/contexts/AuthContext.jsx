@@ -7,6 +7,7 @@ import axiosInstance from "../config/axios";
 // import Cookies from "js-cookie";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import handleError from "../utils/error";
 
 const AuthContext = createContext();
 
@@ -61,7 +62,6 @@ const AuthProvider = ({ children }) => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response);
         setUser(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
         localStorage.setItem("token", response.data.token);
@@ -74,20 +74,7 @@ const AuthProvider = ({ children }) => {
         navigate("/collections");
       })
       .catch((error) => {
-        console.error(error);
-        if (error.response.data.message) {
-          toast({
-            title: "An error occurred.",
-            description: error.response.data.message,
-            status: "error",
-          });
-        } else {
-          toast({
-            title: "An error occurred.",
-            description: "Unable to create account. Please try again later.",
-            status: "error",
-          });
-        }
+        handleError(error, toast);
       })
       .finally(() => setLoading(false));
   };
@@ -116,27 +103,14 @@ const AuthProvider = ({ children }) => {
         navigate("/collections");
       })
       .catch((error) => {
-        console.error(error);
-        if (error.response.data.message) {
-          toast({
-            title: "An error occurred.",
-            description: error.response.data.message,
-            status: "error",
-          });
-        } else {
-          toast({
-            title: "An error occurred.",
-            description: "Unable to login. Please try again later.",
-            status: "error",
-          });
-        }
+        handleError(error, toast);
       })
 
       .finally(() => setLoading(false));
   };
 
   const checkAuthenticationStatus = async () => {
-    setLoading(true); // Ensure loading is set at the beginning
+    setLoading(true);
     axios
       .get(`${apiUrl}/auth/check-auth`, {
         withCredentials: true,
@@ -146,20 +120,15 @@ const AuthProvider = ({ children }) => {
       })
       .then((response) => {
         if (response.data.status === "success") {
-          //   console.log("Heyy true oo");
           setIsAuthenticated(true);
-        } else {
-          //   console.log("Heyy false ooo");
-          // setIsAuthenticated(false);
         }
       })
-      .catch((error) => {
-        // console.log("Heyy false ooo");
-        console.error(error);
+      .catch(() => {
+        // handleError(error, toast);
         setIsAuthenticated(false);
       })
       .finally(() => {
-        setLoading(false); // This should always be called
+        setLoading(false);
       });
   };
 
@@ -168,8 +137,7 @@ const AuthProvider = ({ children }) => {
       .get(`/auth/logout`, {
         withCredentials: true,
       })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         setIsAuthenticated(false);
         setToken(null);
         localStorage.removeItem("token");
@@ -179,8 +147,7 @@ const AuthProvider = ({ children }) => {
           description: "Logout successful",
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         toast({
           status: "error",
           description: "Logout unsuccessful",

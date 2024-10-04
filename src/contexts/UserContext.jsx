@@ -3,6 +3,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import axiosInstance from "../config/axios";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import handleError from "../utils/error";
 
 const UserContext = createContext();
 
@@ -39,11 +40,7 @@ const UserProvider = ({ children }) => {
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
-      toast({
-        title: "Error fetching user profile",
-        description: error.message,
-        status: "error",
-      });
+      handleError(error, toast);
     } finally {
       setLoading(false);
     }
@@ -61,11 +58,7 @@ const UserProvider = ({ children }) => {
       toast({ title: "Profile updated", status: "success" });
       navigate("/profile");
     } catch (error) {
-      toast({
-        title: "Error updating profile",
-        description: error.message,
-        status: "error",
-      });
+      handleError(error, toast);
     } finally {
       setLoading(false);
     }
@@ -90,12 +83,7 @@ const UserProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(updatedUser));
       toast({ title: "Profile picture updated", status: "success" });
     } catch (error) {
-      console.log(error);
-      toast({
-        title: "Error updating picture",
-        description: error.message,
-        status: "error",
-      });
+      handleError(error, toast);
     } finally {
       setLoading(false);
     }

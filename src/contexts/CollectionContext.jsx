@@ -5,6 +5,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import axiosInstance from "../config/axios";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import handleError from "../utils/error";
 
 const CollectionContext = createContext();
 
@@ -50,8 +51,7 @@ const CollectionProvider = ({ children }) => {
         );
       });
     });
-    console.log(data);
-    console.log("zform data", formData);
+
     setLoading(true);
     axiosInstance
       .post(`/collection`, formData, {
@@ -61,18 +61,16 @@ const CollectionProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        // console.log(response);
         toast({
           title: "Collection created successfully",
           status: "success",
         });
         navigate("/collections");
-        setLoading(false);
       })
       .catch((error) => {
-        console.error(error);
-        setLoading(false);
+        handleError(error, toast);
       })
       .finally(() => setLoading(false));
   };
@@ -84,13 +82,11 @@ const CollectionProvider = ({ children }) => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setCollections(response.data.data.collections);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error(error);
-        setLoading(false);
+        handleError(error, toast);
       })
       .finally(() => setLoading(false));
   };
@@ -105,11 +101,9 @@ const CollectionProvider = ({ children }) => {
       .then((response) => {
         // console.log(response);
         setCollectionDetails(response.data.data.collection);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error(error);
-        setLoading(false);
+        handleError(error, toast);
       })
       .finally(() => setLoading(false));
   };
@@ -124,18 +118,16 @@ const CollectionProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        // console.log(response);
         toast({
           title: "Collection updated successfully",
           status: "success",
         });
         navigate(`/collection/${id}`);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error(error);
-        setLoading(false);
+        handleError(error, toast);
       })
       .finally(() => setLoading(false));
   };
@@ -146,15 +138,29 @@ const CollectionProvider = ({ children }) => {
     axiosInstance
       .get(`/collection/public/${id}`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setPublicCollectionDetails(response.data.data.collection);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error(error);
-        setLoading(false);
+        handleError(error, toast);
       })
       .finally(() => setLoading(false));
+  };
+
+  const deleteCollection = async (id) => {
+    axiosInstance
+      .delete(`/collection/${id}`)
+      .then(() => {
+        // console.log(response);
+        toast({
+          title: "Collection deleted successfully",
+          status: "success",
+        });
+        navigate("/collections");
+      })
+      .catch((error) => {
+        handleError(error, toast);
+      });
   };
 
   const values = {
@@ -167,6 +173,7 @@ const CollectionProvider = ({ children }) => {
     fetchCollectionDetails,
     updateCollection,
     fetchPublicCollectionDetails,
+    deleteCollection,
   };
 
   return (

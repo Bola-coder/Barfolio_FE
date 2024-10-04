@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Heading,
@@ -26,8 +26,13 @@ import ShareButtonsModal from "../components/ShareButtonsModal";
 const CollectionDetails = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { loading, collectionDetails, fetchCollectionDetails } =
-    useCollectionContext();
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const {
+    loading,
+    collectionDetails,
+    fetchCollectionDetails,
+    deleteCollection,
+  } = useCollectionContext();
   const { id } = useParams();
   const qrRef = useRef();
 
@@ -72,6 +77,19 @@ const CollectionDetails = () => {
     };
 
     img.src = url;
+  };
+
+  const handleDeleteCollection = async () => {
+    setDeleteLoading(true);
+    const shouldDelete = confirm(
+      "Are you sure you want to delete this collection? \n This actions is irreversible"
+    );
+    if (!shouldDelete) {
+      setDeleteLoading(false);
+      return;
+    }
+    await deleteCollection(id);
+    setDeleteLoading(false);
   };
 
   if (loading || !collectionDetails) {
@@ -248,8 +266,17 @@ const CollectionDetails = () => {
         >
           Edit Collection
         </Button>
-        <Button colorScheme="red" variant="outline">
-          Delete Collection
+        <Button
+          colorScheme="red"
+          variant="outline"
+          onClick={handleDeleteCollection}
+          disabled={deleteLoading}
+        >
+          {deleteLoading ? (
+            <Spinner color="red" size={"md"} />
+          ) : (
+            <Text>Delete Collection</Text>
+          )}
         </Button>
       </HStack>
 

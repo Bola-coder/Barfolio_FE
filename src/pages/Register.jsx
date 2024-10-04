@@ -19,7 +19,7 @@ import useShowPassword from "../hooks/useShowPassword";
 const Signup = () => {
   const navigate = useNavigate();
   const { showPassword, handleShowPassword } = useShowPassword();
-  const { loading, signup, isAuthenticated } = useAuth();
+  const { signup, isAuthenticated } = useAuth();
   const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {

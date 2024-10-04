@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const EditCollection = () => {
-  const { id } = useParams(); // Get collection ID from URL
+  const { id } = useParams();
   const { collectionDetails, fetchCollectionDetails, updateCollection } =
     useCollectionContext();
 

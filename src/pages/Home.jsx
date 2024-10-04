@@ -39,23 +39,45 @@ const Home = () => {
 
   if (collections.length === 0) {
     return (
-      <Flex
-        maxW="1000px"
-        justifyContent="center"
-        alignItems="center"
-        mx="auto"
-        p="6"
-        fontFamily="IBM Plex Sans"
-      >
-        <Text
-          textAlign="center"
-          fontSize="lg"
-          color="gray.600"
+      <Box p="6" maxW="1200px" mx="auto" fontFamily={"IBM Plex Sans"}>
+        <Flex justifyContent={"space-between"} alignItems={"center"} mb="6">
+          <Heading
+            as="h2"
+            size={{ base: "sm", md: "lg" }}
+            textAlign="center"
+            fontFamily={"IBM Plex Sans"}
+          >
+            Your Collections
+          </Heading>
+          <Box>
+            <Button
+              borderColor="primary.500"
+              color={"primary.500"}
+              variant="outline"
+              size={{ base: "sm", md: "lg" }}
+            >
+              <Link to={"/create"}>Create New</Link>
+            </Button>
+          </Box>
+        </Flex>
+        <Flex
+          maxW="1000px"
+          justifyContent="center"
+          alignItems="center"
+          mx="auto"
+          p="6"
           fontFamily="IBM Plex Sans"
         >
-          You have no collections at the moment
-        </Text>
-      </Flex>
+          <Text
+            textAlign="center"
+            fontSize="lg"
+            color="gray.600"
+            fontFamily="IBM Plex Sans"
+          >
+            You have no collections at the moment
+          </Text>
+        </Flex>
+      </Box>
     );
   }
 
