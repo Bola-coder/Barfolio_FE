@@ -18,10 +18,7 @@ import {
   WhatsappIcon,
 } from "react-share";
 
-const ShareButtonsModal = ({ isOpen, onClose }) => {
-  const shareUrl = "https://example.com"; // Replace with your app URL
-  const title = "Check out this amazing content!";
-
+const ShareButtonsModal = ({ isOpen, onClose, shareUrl, title }) => {
   return (
     <div>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

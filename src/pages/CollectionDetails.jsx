@@ -195,7 +195,7 @@ const CollectionDetails = () => {
                 height="130px"
                 mx="auto"
                 position="absolute"
-                top="17%"
+                top="14%"
                 left="32%"
                 padding={2}
                 borderRadius="50%"
@@ -220,7 +220,7 @@ const CollectionDetails = () => {
               </Box>
             </Box>
 
-            <CardHeader color="primary.500" zIndex="1" mt="36px">
+            <CardHeader color="primary.500" zIndex="1" marginTop={"18%"}>
               <Heading
                 size={{ base: "sm", md: "md" }}
                 fontFamily="IBM Plex Sans"
@@ -280,7 +280,12 @@ const CollectionDetails = () => {
         </Button>
       </HStack>
 
-      <ShareButtonsModal isOpen={isOpen} onClose={onClose} />
+      <ShareButtonsModal
+        isOpen={isOpen}
+        onClose={onClose}
+        shareUrl={`${baseUrl}collection/public/${collectionDetails?._id}`}
+        title={`Check out my link collection for ${collectionDetails.title}`}
+      />
     </Box>
   );
 };
