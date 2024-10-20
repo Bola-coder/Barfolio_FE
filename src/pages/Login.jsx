@@ -50,6 +50,7 @@ const Login = () => {
       setButtonLoading(true);
       await login(values.email, values.password);
       //   formik.resetForm();
+      setButtonLoading(false);
     },
   });
   return (
