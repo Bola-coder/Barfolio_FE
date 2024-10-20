@@ -39,7 +39,9 @@ const AuthProvider = ({ children }) => {
     if (user) {
       setUser(JSON.parse(user));
     }
+  }, []);
 
+  useEffect(() => {
     const checkAuthStatus = async () => {
       await checkAuthenticationStatus();
     };
@@ -47,7 +49,6 @@ const AuthProvider = ({ children }) => {
     checkAuthStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-
   const signup = (email, firstname, lastname, password, phoneNumber) => {
     const body = {
       email,
@@ -74,6 +75,7 @@ const AuthProvider = ({ children }) => {
         navigate("/collections");
       })
       .catch((error) => {
+        console.log(error);
         handleError(error, toast);
       })
       .finally(() => setLoading(false));

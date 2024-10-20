@@ -59,7 +59,8 @@ const Signup = () => {
         values.password,
         values.phoneNumber
       );
-      formik.resetForm();
+      // formik.resetForm();
+      setButtonLoading(false);
     },
   });
 
